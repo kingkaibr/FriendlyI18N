@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, reactive, watch } from 'vue';
+import { storeToRefs } from 'pinia';
 import { X } from 'lucide-vue-next';
-import { useEditor } from '../../store/useEditor';
+import { useEditorStore } from '../../store/useEditor';
 import type { ModalType } from '../../types';
 
 const props = defineProps<{
@@ -12,7 +13,9 @@ const props = defineProps<{
 
 const emit = defineEmits(['close']);
 
-const { files, flatData, allKeys, addKey, updateKey, referenceFileId } = useEditor();
+const editorStore = useEditorStore();
+const { files, flatData, allKeys, referenceFileId } = storeToRefs(editorStore);
+const { addKey, updateKey } = editorStore;
 
 const modalKey = ref('');
 const modalValues = reactive<Record<string, string>>({});
@@ -24,7 +27,10 @@ watch(() => props.show, (isShown) => {
     if (props.type === 'edit' && props.initialKey) {
       modalKey.value = props.initialKey;
       files.value.forEach(f => {
-        modalValues[f.id] = flatData[f.id][props.initialKey!] || '';
+        const fileData = flatData.value[f.id];
+        if (fileData) {
+          modalValues[f.id] = fileData[props.initialKey!] || '';
+        }
       });
     } else {
       modalKey.value = '';

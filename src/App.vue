@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
 import { Upload } from 'lucide-vue-next';
-import { useEditor } from './store/useEditor';
+import { useEditorStore } from './store/useEditor';
 import { useResizing } from './composables/useResizing';
 import type { ModalType } from './types';
 
@@ -11,12 +12,12 @@ import TranslationGrid from './components/Grid/TranslationGrid.vue';
 import EditModal from './components/Modals/EditModal.vue';
 import DeleteConfirmModal from './components/Modals/DeleteConfirmModal.vue';
 
+const editorStore = useEditorStore();
 const { 
   files, 
-  isDraggingFiles, 
-  processFiles, 
-  handleFileInput 
-} = useEditor();
+  isDraggingFiles
+} = storeToRefs(editorStore);
+const { processFiles, handleFileInput } = editorStore;
 
 const { 
   sidebarWidth, 

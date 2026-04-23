@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
 import { Search, Plus, Maximize2, Star } from 'lucide-vue-next';
-import { useEditor } from '../../store/useEditor';
+import { useEditorStore } from '../../store/useEditor';
 
+const editorStore = useEditorStore();
 const { 
   filteredKeys, 
   visibleFiles, 
   referenceFileId, 
   selectedKeys, 
   flatData,
-  searchQuery,
-  handleFileInput
-} = useEditor();
+  searchQuery
+} = storeToRefs(editorStore);
+const { handleFileInput } = editorStore;
 
 defineProps<{
   columnWidths: Record<string, number>;
@@ -89,7 +90,12 @@ const autoResize = (e: Event) => {
               </div>
             </td>
             <td v-for="f in visibleFiles" :key="f.id" :class="{ 'ref-cell': referenceFileId === f.id }">
-              <textarea v-model="flatData[f.id][k]" rows="1" @input="autoResize"></textarea>
+              <textarea 
+                v-if="flatData[f.id]"
+                v-model="flatData[f.id]![k]" 
+                rows="1" 
+                @input="autoResize"
+              ></textarea>
             </td>
           </tr>
         </tbody>

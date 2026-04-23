@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { useEditor } from '../../store/useEditor';
+import { storeToRefs } from 'pinia';
+import { useEditorStore } from '../../store/useEditor';
 import { X } from 'lucide-vue-next';
 import LanguageList from './LanguageList.vue';
 import BulkActions from './BulkActions.vue';
 
-const { files, allKeys, visibleFileIds, langFilterQuery } = useEditor();
+const editorStore = useEditorStore();
+const { files, allKeys, visibleFileIds, langFilterQuery } = storeToRefs(editorStore);
 
 defineProps<{
   width: number;

@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
 import { AlertTriangle } from 'lucide-vue-next';
-import { useEditor } from '../../store/useEditor';
+import { useEditorStore } from '../../store/useEditor';
 
 defineProps<{
   show: boolean;
@@ -8,7 +9,9 @@ defineProps<{
 
 const emit = defineEmits(['close']);
 
-const { selectedKeys, filteredKeys, bulkDelete } = useEditor();
+const editorStore = useEditorStore();
+const { selectedKeys, filteredKeys } = storeToRefs(editorStore);
+const { bulkDelete } = editorStore;
 
 const handleConfirm = () => {
   bulkDelete();

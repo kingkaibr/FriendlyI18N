@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
 import { FileJson, X, Star } from 'lucide-vue-next';
-import { useEditor } from '../../store/useEditor';
+import { useEditorStore } from '../../store/useEditor';
 
-const { files, referenceFileId, visibleFileIds } = useEditor();
+const editorStore = useEditorStore();
+const { files, referenceFileId, visibleFileIds } = storeToRefs(editorStore);
 
 const toggleVisibility = (id: string) => {
   if (visibleFileIds.value.has(id)) visibleFileIds.value.delete(id);

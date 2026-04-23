@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
 import { ArrowRight, Trash2, Download } from 'lucide-vue-next';
-import { useEditor } from '../../store/useEditor';
+import { useEditorStore } from '../../store/useEditor';
 
-const { selectedKeys, filteredKeys, applyBulkAction, exportProject } = useEditor();
+const editorStore = useEditorStore();
+const { selectedKeys, filteredKeys } = storeToRefs(editorStore);
+const { applyBulkAction, exportProject } = editorStore;
 
 const bulkPrefix = ref('');
 const bulkSuffix = ref('');
