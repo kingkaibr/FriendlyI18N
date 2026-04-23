@@ -1,0 +1,11 @@
+{
+  "common": {
+    "welcome": "Welcome",
+    "logout": "Logout",
+    "save": "Save"
+  },
+  "auth": {
+    "login": "Login",
+    "signup": "Sign Up"
+  }
+}
